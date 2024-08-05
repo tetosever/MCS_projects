@@ -7,5 +7,5 @@ class IterSolverContext:
 
     def risolvi(self, A, b, tol=1e-10, max_iter=20000):
         if not self._strategy:
-            raise Exception("Nessuna strategia è stata impostata.")
+            raise Exception("No iteretion solver is selected")
         return self._strategy.solve(A, b, tol, max_iter)

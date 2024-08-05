@@ -1,14 +1,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="mini_libreria_sistemi_lineari",
-    version="0.1",
+    name="IterSolverLib",
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     packages=find_packages(),
     install_requires=[
         "numpy",
+        "setuptools"
     ],
-    author="Il tuo nome",
-    author_email="tuo.email@example.com",
-    description="Mini libreria per sistemi lineari simmetrici e definiti positivi",
-    url="https://github.com/tuo-username/mini_libreria_sistemi_lineari",
+    author="Matteo Severgnini",
+    author_email="severgnini.matteo.00@gmail.com",
+    description="Library for symmetrical and positive definite linear systems",
+    url="https://github.com/tetosever/IterSolverLib.git",
 )
