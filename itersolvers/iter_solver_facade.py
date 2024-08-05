@@ -3,6 +3,7 @@ from ._gauss_seidel import GaussSeidelStrategy
 from ._gradiente import GradienteStrategy
 from ._gradiente_coniugato import GradienteConiugatoStrategy
 from iter_solver_context import IterSolverContext
+from iter_solver_validator import IterSolverValidator
 
 class IterSolver:
     def __init__(self):
@@ -21,4 +22,5 @@ class IterSolver:
             raise ValueError("Tipo di solver non riconosciuto")
 
     def solve(self, A, b, tol=1e-10, max_iter=20000):
+        IterSolverValidator.validate(A, b, max_iter)
         return self.context.solve(A, b, tol, max_iter)

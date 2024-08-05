@@ -1,5 +1,5 @@
 import numpy as np
-from iter_solvers_strategy import IterSolverStrategy
+from .iter_solvers_strategy import IterSolverStrategy
 
 '''
 Il metodo __init__ è stato implementato per GradienteConiugatoStrategy perché il metodo del gradiente coniugato 

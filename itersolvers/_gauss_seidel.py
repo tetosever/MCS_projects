@@ -1,5 +1,5 @@
 import numpy as np
-from iter_solvers_strategy import IterSolverStrategy
+from .iter_solvers_strategy import IterSolverStrategy
 
 class GaussSeidelStrategy(IterSolverStrategy):
     def _solve_iteration(self, A, b, x):

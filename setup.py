@@ -7,8 +7,15 @@ setup(
     packages=find_packages(),
     install_requires=[
         "numpy",
-        "setuptools"
+        "setuptools",
+        "setuptools_scm",
+        "scipy"
     ],
+    extras_require={
+        "dev": [
+            "pytest",
+        ],
+    },
     author="Matteo Severgnini",
     author_email="severgnini.matteo.00@gmail.com",
     description="Library for symmetrical and positive definite linear systems",
