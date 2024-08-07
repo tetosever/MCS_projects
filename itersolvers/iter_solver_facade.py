@@ -1,9 +1,9 @@
-from ._jacobi import JacobiStrategy
-from ._gauss_seidel import GaussSeidelStrategy
-from ._gradiente import GradienteStrategy
-from ._gradiente_coniugato import GradienteConiugatoStrategy
-from iter_solver_context import IterSolverContext
-from iter_solver_validator import IterSolverValidator
+from itersolvers._jacobi import JacobiStrategy
+from itersolvers._gauss_seidel import GaussSeidelStrategy
+from itersolvers._gradiente import GradienteStrategy
+from itersolvers._gradiente_coniugato import GradienteConiugatoStrategy
+from itersolvers.iter_solver_context import IterSolverContext
+from itersolvers.iter_solver_validator import IterSolverValidator
 
 class IterSolver:
     def __init__(self):
