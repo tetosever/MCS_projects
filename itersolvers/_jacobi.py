@@ -1,5 +1,5 @@
 import numpy as np
-from itersolvers.iter_solvers_strategy import IterSolverStrategy
+from itersolvers.iter_solver_strategy import IterSolverStrategy
 
 class JacobiStrategy(IterSolverStrategy):
     def _solve_iteration(self, A, b, x):

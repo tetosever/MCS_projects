@@ -15,4 +15,4 @@ class IterSolverStrategy(ABC):
             if residue < tol * np.linalg.norm(b):
                 return x_new
             x = x_new
-        raise Exception(f"Metodo non ha converguto in {max_iter} iterazioni")
+        raise Exception(f"Method did not convert to {max_iter} iterations")
