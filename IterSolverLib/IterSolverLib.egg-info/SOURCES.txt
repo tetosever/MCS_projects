@@ -1,0 +1,14 @@
+README.md
+setup.py
+IterSolverLib.egg-info/PKG-INFO
+IterSolverLib.egg-info/SOURCES.txt
+IterSolverLib.egg-info/dependency_links.txt
+IterSolverLib.egg-info/requires.txt
+IterSolverLib.egg-info/top_level.txt
+itersolvers/__init__.py
+itersolvers/iter_solver_facade.py
+itersolvers/iter_solver_strategy.py
+itersolvers/iter_solver_validator.py
+itersolvers/solvers.py
+tests/__init__.py
+tests/iter_solver_validator_test.py

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/index.css">
+    <script src="static/js/index.js"></script>
+
+    <title>IterSolverLib</title>
+</head>
+<body>
+    <div>
+        <h1>Choose method for resolution!!</h1>
+        <form id="methodForm" action="/apply" method="post" enctype="multipart/form-data">
+            <label for="file">Choose a .mtx file:</label><br>
+            <input type="file" id="file" name="file" accept=".mtx" required><br>
+
+            <label for="tolerance">Choose tolerance value:</label><br>
+            <input type="number" id="tolerance-number" name="tolerance_number" value="0.0001">
+            <input type="text" id="tolerance-scientific" name="tolerance_scientific" required pattern="^-?\d+(\.\d+)?([eE][-+]?\d+)?$" title="Enter a number in scientific notation (e.g., 1e-3, 2.5E6)" value="1e-3" style="display:none">
+            <input type="checkbox" id="tolerance-notation-checkbox" name="scientific" onchange="toggleInput()"> Use scientific notation
+            <br>
+
+            <label for="iteration">Choose iteration value:</label><br>
+            <input type="number" id="iteration" name="iteration" value="20000"><br>
+
+            <label for="method">Choose method:</label><br>
+            <select id="method" name="methodList" form="methodForm">
+                <option value="jacobi">Jacobi</option>
+                <option value="gauss_seidel">Gauss-Seidel</option>
+                <option value="gradient">Gradient</option>
+                <option value="coniugate_gradient">Coniugate Gradient</option>
+            </select><br>
+        
+            <button id="apply-method-button">Apply</button>
+        </form>
+        <!-- <p>{{ result }}</p> -->
+    </div>
+</body>
+</html>

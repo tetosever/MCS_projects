@@ -1,4 +1,7 @@
+Flask
 numpy
+scipy
 setuptools
 setuptools_scm
-scipy
+pytest
+-e ./IterSolverLib
