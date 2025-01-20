@@ -1,6 +1,6 @@
-from itersolvers.solvers import JacobiStrategy, GaussSeidelStrategy, GradienteStrategy, GradienteConiugatoStrategy
-from itersolvers.iter_solver_strategy import IterSolverContext
-from itersolvers.iter_solver_validator import IterSolverValidator
+from IterSolverLib.itersolvers.solvers import JacobiStrategy, GaussSeidelStrategy, GradienteStrategy, GradienteConiugatoStrategy
+from IterSolverLib.itersolvers.iter_solver_strategy import IterSolverContext
+from IterSolverLib.itersolvers.iter_solver_validator import IterSolverValidator
 
 class IterSolverFacade:
     def __init__(self):

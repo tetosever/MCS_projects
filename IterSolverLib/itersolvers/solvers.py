@@ -1,5 +1,5 @@
 import numpy as np
-from itersolvers.iter_solver_strategy import IterSolverStrategy
+from IterSolverLib.itersolvers.iter_solver_strategy import IterSolverStrategy
 from scipy.sparse import diags
 
 class JacobiStrategy(IterSolverStrategy):
@@ -11,7 +11,7 @@ class JacobiStrategy(IterSolverStrategy):
 class GaussSeidelStrategy(IterSolverStrategy):
     def _solve_iteration(self, A, b, x):
         x_new = np.copy(x)
-        A = A.tocsc()  # Converti A in formato CSC per accesso efficiente a colonne
+        A = A.tocsc()
         
         for i in range(A.shape[0]):
             s1 = A[i, :i].dot(x_new[:i])
