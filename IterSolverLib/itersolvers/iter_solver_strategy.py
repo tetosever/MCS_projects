@@ -9,7 +9,7 @@ class IterSolverStrategy(ABC):
 
     def solve(self, A, b, tol, max_iter):
         x = np.zeros_like(b)
-        start_time = time.time()  # Inizio della misurazione del tempo
+        start_time = time.time()
 
         for k in range(max_iter):
             x_new = self._solve_iteration(A, b, x)
