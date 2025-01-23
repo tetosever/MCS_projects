@@ -11,6 +11,10 @@ class IterSolverStrategy(ABC):
         x = np.zeros_like(b)
         start_time = time.time()
 
+        residuals = []  # Lista dei residui
+        times = []  # Tempo accumulato
+        solutions = []  # Andamento della soluzione
+
         for k in range(max_iter):
             x_new = self._solve_iteration(A, b, x)
             x_new = x_new.flatten()
@@ -21,11 +25,15 @@ class IterSolverStrategy(ABC):
                 residue = np.linalg.norm(Ax_new - b)
             else:
                 residue = np.linalg.norm(Ax_new.toarray() - b)
+
+            residuals.append(residue)
+            solutions.append(x_new.copy())
+            times.append(time.time() - start_time)  # Tempo cumulativo
                         
             if residue < tol * np.linalg.norm(b):
                 end_time = time.time()
                 execution_time = end_time - start_time
-                return x_new, execution_time, k + 1
+                return x_new, execution_time, k + 1, residuals, times, solutions
             x = x_new
             
         end_time = time.time()

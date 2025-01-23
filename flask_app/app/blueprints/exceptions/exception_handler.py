@@ -10,6 +10,10 @@ def handle_validation_error(error):
     response.status_code = error.status_code
     return response
 
+@exception.errorhandler(ValueError)
+def handle_value_error(error):
+    return jsonify({"error": str(error)}), 400
+
 @exception.errorhandler(404)
 def handle_not_found(error):
     return jsonify({"error": "Resource not found"}), 404

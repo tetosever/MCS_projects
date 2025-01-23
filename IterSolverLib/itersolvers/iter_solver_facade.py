@@ -16,7 +16,7 @@ class IterSolverFacade:
         elif solver_type == 'coniugate_gradient':
             self.context.set_strategy(GradienteConiugatoStrategy())
         else:
-            raise ValueError("Tipo di solver non riconosciuto")
+            raise ValueError("Type of solver not recognized")
 
     def solve(self, A, b, tol, max_iter):
         IterSolverValidator.validate(A, b, max_iter)
