@@ -1,18 +1,43 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/results.css">
-    <script src="static/js/results.js"></script>
+    <link rel="stylesheet" href="../static/css/results.css">
+    <script src="../static/js/results.js"></script>
 
-    <title>IterSolverLib</title>
+    <title>Solver results</title>
 </head>
 <body>
-    <div>
-        <h1>RESULTS !!</h1>
 
+    <div class="container">
+        <h1>Solver results</h1>
+
+        <div class="info">
+            <h2>Message:</h2>
+            <p id="message">Elaborazione in corso...</p>
+        </div>
+
+        <div class="info">
+            <h2>Numero di Iterazioni Eseguite:</h2>
+            <p id="iterations">-</p>
+        </div>
+
+        <div class="info">
+            <h2>Tempo di Esecuzione:</h2>
+            <p id="execution_time">-</p>
+        </div>
+
+        <div class="graphs">
+            <h2>Grafici dei Risultati</h2>
+            <div id="images"></div>
+        </div>
+
+        <div class="back-button-container">
+            <button id="back-button">Back</button>
+        </div>
     </div>
+
 </body>
 </html>
+

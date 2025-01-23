@@ -16,7 +16,7 @@ class IterSolverService:
         solution, execution_time, iterations, residuals, times, solutions = solver.solve(A, b, tolerance, iteration)
         print(f'File processed successfully with solution {solution}')
 
-        images = self.generate_plots(residuals, times, solutions, method)
+        images = self.generate_plots(residuals, times, method, tolerance, iterations)
 
         return {
             "solution": solution.tolist(),
@@ -25,39 +25,49 @@ class IterSolverService:
             "images": images
         }
 
-    def generate_plots(self, residuals, times, solutions, method):
-        return [self.plot_convergence(residuals, method),
-                self.plot_execution_time(times),
-                self.plot_solution_evolution(solutions)]
+    def generate_plots(self, residuals, times, method, tolerance, iterations):
+        return [self.plot_convergence(residuals, method, tolerance),
+                self.plot_total_execution_time(times),
+                self.plot_time_for_single_execution(times)]
 
-    def plot_convergence(self, residuals, method):
+    def plot_convergence(self, residuals, method, tolerance):
         """Generate a convergence plot (Residual vs Iterations)"""
         fig, ax = plt.subplots()
         ax.semilogy(residuals, marker='o', linestyle='-', label=method)
+        ax.axhline(y=tolerance, color='r', linestyle='--', label=f"Tolleranza ({tolerance})")
         ax.set_xlabel("Iterations")
-        ax.set_ylabel("||Ax - b||")  # Residuo
+        ax.set_ylabel("Residue ||Ax - b||")
+        ax.set_yscale("log")
         ax.set_title("Method Convergence")
         ax.legend()
+        ax.grid(True, linestyle="--", alpha=0.6)
+
         return self.save_plot_as_image(fig)
 
-    def plot_execution_time(self, times):
+    def plot_total_execution_time(self, times):
         """Generates graph of execution time per iteration"""
         fig, ax = plt.subplots()
         ax.plot(times, marker='o', linestyle='-', label="Tempo per iterazione")
         ax.set_xlabel("Iterazioni")
         ax.set_ylabel("Tempo (s)")
+        ax.set_yscale("log")
         ax.set_title("Tempo di Esecuzione")
         ax.legend()
+
         return self.save_plot_as_image(fig)
 
-    def plot_solution_evolution(self, solutions):
-        """Generates the graph of the trend of the approximate solution"""
+    def plot_time_for_single_execution(self, times):
+        """Generates graph of execution time per iteration"""
+        iteration_times = [times[i] - times[i - 1] for i in range(1, len(times))]  # Tempo per singola iterazione
+
         fig, ax = plt.subplots()
-        for i in range(len(solutions[0])):  # Plotta ogni componente della soluzione
-            ax.plot([sol[i] for sol in solutions], marker='o', linestyle='-', alpha=0.5)
+        ax.plot(range(1, len(times)), iteration_times, marker='o', linestyle='-', label="Tempo per singola iterazione")
         ax.set_xlabel("Iterazioni")
-        ax.set_ylabel("Valori delle Componenti della Soluzione")
-        ax.set_title("Evoluzione della Soluzione")
+        ax.set_ylabel("Tempo (s)")
+        ax.set_yscale("log")
+        ax.set_title("Tempo di Esecuzione per Iterazione")
+        ax.legend()
+
         return self.save_plot_as_image(fig)
 
     def save_plot_as_image(self, fig):

@@ -1,40 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/index.css">
-    <script src="static/js/index.js"></script>
-
-    <title>IterSolverLib</title>
+    <title>IterSolverLib - Selezione Metodo</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <script src="../static/js/index.js" defer></script>
 </head>
 <body>
-    <div>
-        <h1>Choose method for resolution!!</h1>
-        <form id="methodForm" action="/api/apply" method="post" enctype="multipart/form-data">
-            <label for="file">Choose a .mtx file:</label><br>
-            <input type="file" id="file" name="file" accept=".mtx" required><br>
+    <div class="container">
+        <h1>Risoluzione di Sistemi Lineari</h1>
+        <p>Seleziona un metodo iterativo, imposta i parametri e carica un file .mtx per eseguire la risoluzione.</p>
 
-            <label for="tolerance">Choose tolerance value:</label><br>
-            <input type="number" id="tolerance-number" name="tolerance_number" value="0.0001">
-            <input type="text" id="tolerance-scientific" name="tolerance_scientific" required pattern="^-?\d+(\.\d+)?([eE][-+]?\d+)?$" title="Enter a number in scientific notation (e.g., 1e-3, 2.5E6)" value="1e-3" style="display:none">
-            <input type="checkbox" id="tolerance-notation-checkbox" name="scientific" onchange="toggleInput()"> Use scientific notation
-            <br>
+        <form id="methodForm">
+            <div class="form-group">
+                <label for="file">Scegli un file .mtx:</label>
+                <input type="file" id="file" name="file" accept=".mtx" required>
+            </div>
 
-            <label for="iteration">Choose iteration value:</label><br>
-            <input type="number" id="iteration" name="iteration" value="20000"><br>
+            <div class="form-group">
+                <label for="tolerance">Valore della tolleranza:</label>
+                <input type="number" id="tolerance-number" name="tolerance_number" step="any">
+                <input type="text" id="tolerance-scientific" name="tolerance_scientific"
+                       pattern="^-?\d+(\.\d+)?([eE][-+]?\d+)?$"
+                       title="Inserisci un numero in notazione scientifica (es. 1e-3, 2.5E6)"
+                       style="display: none;">
+                <input type="checkbox" id="tolerance-notation-checkbox" name="scientific">
+                <label for="tolerance-notation-checkbox">Usa notazione scientifica</label>
+            </div>
 
-            <label for="method">Choose method:</label><br>
-            <select id="method" name="methodList" form="methodForm">
-                <option value="jacobi">Jacobi</option>
-                <option value="gauss_seidel">Gauss-Seidel</option>
-                <option value="gradient">Gradient</option>
-                <option value="coniugate_gradient">Coniugate Gradient</option>
-            </select><br>
-        
-            <button id="apply-method-button">Apply</button>
+            <div class="form-group">
+                <label for="iteration">Numero massimo di iterazioni:</label>
+                <input type="number" id="iteration" name="iteration" value="20000">
+            </div>
+
+            <div class="form-group">
+                <label for="method">Metodo iterativo:</label>
+                <select id="method" name="methodList">
+                    <option value="jacobi">Jacobi</option>
+                    <option value="gauss_seidel">Gauss-Seidel</option>
+                    <option value="gradient">Gradient</option>
+                    <option value="coniugate_gradient">Coniugate Gradient</option>
+                </select>
+            </div>
+
+            <button type="submit" id="apply-method-button">Esegui</button>
         </form>
-        <!-- <p>{{ result }}</p> -->
+
+        <div id="loading" class="loading" style="display: none;">
+            <p>Elaborazione in corso...</p>
+        </div>
     </div>
 </body>
 </html>

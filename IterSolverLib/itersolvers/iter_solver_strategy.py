@@ -28,7 +28,7 @@ class IterSolverStrategy(ABC):
 
             residuals.append(residue)
             solutions.append(x_new.copy())
-            times.append(time.time() - start_time)  # Tempo cumulativo
+            times.append(time.time() - start_time)
                         
             if residue < tol * np.linalg.norm(b):
                 end_time = time.time()
