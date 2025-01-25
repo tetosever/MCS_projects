@@ -12,40 +12,14 @@
         <h1>Risoluzione di Sistemi Lineari</h1>
         <p>Seleziona un metodo iterativo, imposta i parametri e carica un file .mtx per eseguire la risoluzione.</p>
 
-        <form id="methodForm">
-            <div class="form-group">
-                <label for="file">Scegli un file .mtx:</label>
-                <input type="file" id="file" name="file" accept=".mtx" required>
+        <div class="form-wrapper">
+            <div id="form-container" class="form-container">
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="tolerance">Valore della tolleranza:</label>
-                <input type="number" id="tolerance-number" name="tolerance_number" step="any">
-                <input type="text" id="tolerance-scientific" name="tolerance_scientific"
-                       pattern="^-?\d+(\.\d+)?([eE][-+]?\d+)?$"
-                       title="Inserisci un numero in notazione scientifica (es. 1e-3, 2.5E6)"
-                       style="display: none;">
-                <input type="checkbox" id="tolerance-notation-checkbox" name="scientific">
-                <label for="tolerance-notation-checkbox">Usa notazione scientifica</label>
-            </div>
-
-            <div class="form-group">
-                <label for="iteration">Numero massimo di iterazioni:</label>
-                <input type="number" id="iteration" name="iteration" value="20000">
-            </div>
-
-            <div class="form-group">
-                <label for="method">Metodo iterativo:</label>
-                <select id="method" name="methodList">
-                    <option value="jacobi">Jacobi</option>
-                    <option value="gauss_seidel">Gauss-Seidel</option>
-                    <option value="gradient">Gradient</option>
-                    <option value="coniugate_gradient">Coniugate Gradient</option>
-                </select>
-            </div>
-
-            <button type="submit" id="apply-method-button">Esegui</button>
-        </form>
+        <button type="button" id="add-form">Aggiungi Form</button>
+        <button type="button" id="remove-form" disabled>Rimuovi Form</button>
+        <button type="submit" id="apply-method-button">Esegui</button>
 
         <div id="loading" class="loading" style="display: none;">
             <p>Elaborazione in corso...</p>
