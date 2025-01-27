@@ -11,9 +11,11 @@ class IterSolverStrategy(ABC):
         x = np.zeros_like(b)
         start_time = time.time()
 
-        residuals = []  # Lista dei residui
+        residue_absolute = []  # Lista dei residui
+        residue_relative = []
         times = []  # Tempo accumulato
         solutions = []  # Andamento della soluzione
+        iterations = 0
 
         for k in range(max_iter):
             x_new = self._solve_iteration(A, b, x)
@@ -26,19 +28,23 @@ class IterSolverStrategy(ABC):
             else:
                 residue = np.linalg.norm(Ax_new.toarray() - b)
 
-            residuals.append(residue)
+            residue_absolute.append(residue)
+            residue_relative.append(residue / np.linalg.norm(b))
             solutions.append(x_new.copy())
             times.append(time.time() - start_time)
+            iterations += 1
                         
-            if residue < tol * np.linalg.norm(b):
+            if (residue / np.linalg.norm(b)) < tol:
                 end_time = time.time()
                 execution_time = end_time - start_time
-                return x_new, execution_time, k + 1, residuals, times, solutions
+                return x_new, execution_time, iterations, residue_absolute, residue_relative, times, solutions, True
             x = x_new
             
         end_time = time.time()
         execution_time = end_time - start_time
-        raise Exception(f"Method did not converge in {max_iter} iterations. Time elapsed: {execution_time:.2f} seconds, Iterations: {max_iter}")
+
+        return x, execution_time, iterations, residue_absolute, residue_relative, times, solutions, False
+        #raise Exception(f"Method did not converge in {max_iter} iterations. Time elapsed: {execution_time:.2f} seconds, Iterations: {max_iter}")
 
 class IterSolverContext:
     def __init__(self, strategy=None):

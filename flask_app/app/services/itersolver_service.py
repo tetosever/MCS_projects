@@ -18,43 +18,64 @@ class IterSolverService:
 
             solver = IterSolverFacade()
             solver.set_solver(solver_input.method)
-            solution, execution_time, iterations, residuals, times, solutions = (
+            solution, execution_time, iterations, residue_absolute, residue_relative, times, solutions, converged = (
                 solver.solve(A, b, solver_input.tolerance, solver_input.max_iterations))
             print(f'File processed successfully with solution {solution}')
 
             results.append(IterSolverOutputDTO(solver_input.index,
                                                solution.tolist(),
-                                               residuals,
+                                               residue_absolute,
+                                               residue_relative,
                                                solver_input.tolerance,
                                                iterations,
                                                solver_input.max_iterations,
                                                times,
                                                execution_time,
-                                               solver_input.method))
+                                               solver_input.method,
+                                               converged))
 
         return results
 
     def generate_plots(self, results):
         methods = [result.method for result in results]
-        residuals = [result.residuals for result in results]
+        residue_absolute = [result.residue_absolute for result in results]
+        residue_relative = [result.residue_relative for result in results]
         times = [result.times for result in results]
 
         return {
-            "convergence_plot": self.plot_convergence(methods, residuals),
+            "convergence_absolute_plot": self.plot_absolute_convergence(methods, residue_absolute),
+            "convergence_relative_plot": self.plot_relative_convergence(methods, residue_relative),
             "execution_time_plot": self.plot_total_execution_time(methods, times)
         }
 
-    def plot_convergence(self, methods, residuals):
+    def plot_absolute_convergence(self, methods, residue_absolute):
         fig, ax = plt.subplots(figsize=(10, 5))
         colors = self.get_colors(len(methods))
 
         for i, method in enumerate(methods):
-            iterations = range(1, len(residuals[i]) + 1)
-            ax.plot(iterations, residuals[i], marker='o', linestyle='-', color=colors[i],
+            iterations = range(1, len(residue_absolute[i]) + 1)
+            ax.plot(iterations, residue_absolute[i], marker='o', linestyle='-', color=colors[i],
                     label=method, linewidth=2, markersize=6)
 
-        ax.set_xlabel("Step Iterativo")
-        ax.set_ylabel("Numero di Iterazioni")
+        ax.set_xlabel("Numero di Iterazioni")
+        ax.set_ylabel("Residuo assoluto")
+        ax.set_title("Convergenza dei Metodi Iterativi")
+        ax.legend()
+        ax.grid(True, linestyle="--", alpha=0.5)
+
+        return self.save_plot_as_image(fig)
+
+    def plot_relative_convergence(self, methods, residue_relative):
+        fig, ax = plt.subplots(figsize=(10, 5))
+        colors = self.get_colors(len(methods))
+
+        for i, method in enumerate(methods):
+            iterations = range(1, len(residue_relative[i]) + 1)
+            ax.plot(iterations, residue_relative[i], marker='o', linestyle='-', color=colors[i],
+                    label=method, linewidth=2, markersize=6)
+
+        ax.set_xlabel("Numero di Iterazioni")
+        ax.set_ylabel("Residuo relativo")
         ax.set_title("Convergenza dei Metodi Iterativi")
         ax.legend()
         ax.grid(True, linestyle="--", alpha=0.5)
@@ -66,7 +87,7 @@ class IterSolverService:
         colors = self.get_colors(len(methods))
 
         for i, method in enumerate(methods):
-            iterations = range(1, len(times[i]) + 1)  # Iterazioni 1, 2, ..., N
+            iterations = range(1, len(times[i]) + 1)
             ax.plot(iterations, times[i], marker='o', linestyle='-', color=colors[i],
                     label=method, linewidth=2, markersize=6)
 
