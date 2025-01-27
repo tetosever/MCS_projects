@@ -18,18 +18,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 <label for="file-${index}">Scegli un file .mtx:</label>
                 <input type="file" id="file-${index}" name="file-${index}" accept=".mtx">
             </div>
-            <div class="form-group">
-                <label for="tolerance-${index}">Valore della tolleranza:</label>
-                <input type="number" id="tolerance-number-${index}" name="tolerance_number" step="any" value="0.0001">
-                <input type="text" id="tolerance-scientific-${index}" name="tolerance_scientific"
-                       pattern="^-?\\d+(\\.\\d+)?([eE][-+]?\\d+)?$"
-                       title="Inserisci un numero in notazione scientifica (es. 1e-3, 2.5E6)"
-                       style="display: none;" value="1e-3">
-                <input type="checkbox" id="tolerance-notation-checkbox-${index}" name="scientific">
-                <label for="tolerance-notation-checkbox-${index}">Usa notazione scientifica</label>
+            <div class="form-group tolerance-group">
+                <div class="label-container">
+                    <label for="tolerance-${index}">Valore della tolleranza:</label>
+                    <span class="info-icon" data-tooltip="La tolleranza non deve essere un valore piú piccolo di 0.1">ℹ️</span>
+                </div>
+                <div class="tolerance-inputs">
+                    <input type="number" id="tolerance-number-${index}" name="tolerance_number" step="any" value="0.0001">
+                </div>
             </div>
             <div class="form-group">
-                <label for="iteration-${index}">Numero massimo di iterazioni:</label>
+                <div class="label-container">
+                    <label for="iteration-${index}">Numero massimo di iterazioni:</label>
+                    <span class="info-icon" data-tooltip="Il valore deve essere minimo 20000">ℹ️</span>
+                </div>
                 <input type="number" id="iteration-${index}" name="iteration" value="20000">
             </div>
             <div class="form-group">
@@ -67,6 +69,39 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function validateForm(fileInput, toleranceInput, iterationInput, methodInput) {
+        let valid = true;
+
+        if (!fileInput || !toleranceInput || !iterationInput || !methodInput) {
+            console.error("Errore: Uno o più campi non esistono nel DOM.");
+            return false;
+        }
+
+        fileInput.classList.remove("invalid-input");
+        toleranceInput.classList.remove("invalid-input");
+        iterationInput.classList.remove("invalid-input");
+        methodInput.classList.remove("invalid-input");
+
+        if (!fileInput.files.length || !fileInput.files[0].name.endsWith(".mtx")) {
+            valid = false;
+            fileInput.classList.add("invalid-input");
+        }
+
+        let toleranceValue = parseFloat(toleranceInput.value);
+        if (isNaN(toleranceValue) || toleranceValue >= 0.1) {
+            valid = false;
+            toleranceInput.classList.add("invalid-input");
+        }
+
+        let iterationValue = parseInt(iterationInput.value, 10);
+        if (isNaN(iterationValue) || iterationValue < 20000) {
+            valid = false;
+            iterationInput.classList.add("invalid-input");
+        }
+
+        return valid;
+    }
+
     addFormButton.addEventListener("click", addForm);
     removeFormButton.addEventListener("click", removeForm);
 
@@ -77,29 +112,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let formData = new FormData();
         let dataList = [];
+        let allValid = true;
 
         for (let i = 0; i < formCount; i++) {
             let fileInput = document.getElementById(`file-${i}`);
-            let toleranceNumber = document.getElementById(`tolerance-number-${i}`).value;
-            let toleranceScientific = document.getElementById(`tolerance-scientific-${i}`).value;
-            let tolerance = toleranceNumber ? toleranceNumber : toleranceScientific;
-            let iteration = document.getElementById(`iteration-${i}`).value;
-            let method = document.getElementById(`method-${i}`).value;
+            let toleranceInput = document.getElementById(`tolerance-number-${i}`);
+            let iterationInput = document.getElementById(`iteration-${i}`);
+            let methodInput = document.getElementById(`method-${i}`);
+
+            if (!fileInput || !toleranceInput || !iterationInput || !methodInput) {
+                console.error(`Errore: Il form ${i + 1} ha campi mancanti.`);
+                allValid = false;
+                continue;
+            }
+
+            let isValid = validateForm(fileInput, toleranceInput, iterationInput, methodInput);
+            if (!isValid) {
+                allValid = false;
+                continue;
+            }
 
             let obj = {
-                index: i,  // Assicura che il backend sappia a quale form appartiene
-                tolerance: tolerance,
-                max_iterations: iteration,
-                method: method
+                index: i,
+                tolerance: toleranceInput.value,
+                max_iterations: iterationInput.value,
+                method: methodInput.value
             };
 
             dataList.push(obj);
 
             if (fileInput.files.length > 0) {
-                formData.append(`file-${i}`, fileInput.files[0]);  // Associa il file al form giusto
+                formData.append(`file-${i}`, fileInput.files[0]);
             } else {
-                formData.append(`file-${i}`, new Blob(), "empty.txt");  // Segnaposto per evitare buchi
+                formData.append(`file-${i}`, new Blob(), "empty.txt");
             }
+        }
+
+        if (!allValid) {
+            alert("Errore: Alcuni campi non sono validi! Controlla i valori evidenziati in rosso.");
+            return;
         }
 
         formData.append("data", JSON.stringify(dataList));

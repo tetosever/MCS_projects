@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    max-width: 70%;
+    max-width: 60%;
     margin: auto;
     background: white;
     padding: 20px;
@@ -16,15 +16,18 @@ body {
 }
 
 .form-wrapper {
+    display: flex;
     width: 100%;
     margin-top: 20px;
+    justify-content: center;
 }
 
 .form-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* I form si dispongono da sinistra a destra */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 10px;
+    max-width: 70%;
 }
 
 .form-instance {
@@ -45,6 +48,10 @@ body {
     flex-direction: column;
 }
 
+.button-container {
+    margin-top: 20px;
+}
+
 input, select, button {
     width: 100%;
     max-width: 100%;
@@ -56,15 +63,43 @@ input, select, button {
 }
 
 button {
-    background-color: #007bff;
-    color: white;
+    padding: 12px 20px;
     font-size: 16px;
-    cursor: pointer;
     border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 100px;
+    max-width: 200px;
 }
 
-button:hover {
+#add-form {
+    background-color: #007bff;
+    color: white;
+}
+
+#add-form:hover {
     background-color: #0056b3;
+}
+
+#remove-form {
+    background-color: #dc3545;
+    color: white;
+}
+
+#remove-form:hover {
+    background-color: #a71d2a;
+}
+
+#apply-method-button {
+    background-color: #28a745;
+    color: white;
+    max-width: 20%;
+    font-size: 18px;
+    padding: 14px 24px;
+}
+
+#apply-method-button:hover {
+    background-color: #218838;
 }
 
 .loading {
@@ -72,6 +107,46 @@ button:hover {
     padding: 10px;
     background-color: #e3f2fd;
     border-left: 5px solid #2196f3;
+}
+
+.invalid-input {
+    border: 2px solid red !important;
+    background-color: #ffdddd;
+}
+
+.label-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Distanza tra il testo e l'icona ℹ️ */
+}
+
+.info-icon {
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+}
+
+.info-icon::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.info-icon:hover::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 @media screen and (max-width: 768px) {
@@ -84,6 +159,15 @@ button:hover {
     }
 
     .form-instance {
+        width: 100%;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
         width: 100%;
     }
 }

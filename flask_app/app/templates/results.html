@@ -3,41 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/results.css">
-    <script src="../static/js/results.js"></script>
-
-    <title>Solver results</title>
+    <title>Risultati IterSolver</title>
+    <link rel="stylesheet" href="../static/css/results.css"> <!-- Se hai uno stile CSS -->
+    <script defer src="../static/js/results.js"></script>
 </head>
 <body>
 
     <div class="container">
-        <h1>Solver results</h1>
+        <h1>Risultati dei Metodi Iterativi</h1>
 
-        <div class="info">
-            <h2>Message:</h2>
-            <p id="message">Elaborazione in corso...</p>
+        <!-- Tabella per i risultati -->
+        <table id="resultsTable">
+            <thead>
+                <tr>
+                    <th>Metodo</th>
+                    <th>Iterazioni</th>
+                    <th>Residuo Finale</th>
+                    <th>Tempo di Esecuzione (s)</th>
+                    <th>Tolleranza</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div>
+            <h2>Grafico della Convergenza</h2>
+            <img id="convergencePlot" src="" alt="Grafico della Convergenza">
+        </div>
+        <div>
+            <h2>Grafico dei Tempi di Esecuzione</h2>
+            <img id="executionTimePlot" src="" alt="Grafico dei Tempi di Esecuzione">
         </div>
 
-        <div class="info">
-            <h2>Numero di Iterazioni Eseguite:</h2>
-            <p id="iterations">-</p>
-        </div>
-
-        <div class="info">
-            <h2>Tempo di Esecuzione:</h2>
-            <p id="execution_time">-</p>
-        </div>
-
-        <div class="graphs">
-            <h2>Grafici dei Risultati</h2>
-            <div id="images"></div>
-        </div>
-
-        <div class="back-button-container">
-            <button id="back-button">Back</button>
-        </div>
+        <button id="backButton">🔙 Back</button>
     </div>
 
 </body>
 </html>
-
