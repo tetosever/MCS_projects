@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCT2 Image Compression</title>
+    <link rel="stylesheet" href="../static/css/image_compression.css">
+    <script src="../static/js/image_compression.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h2>DCT2 Image Compression</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="image">Seleziona un'immagine BMP:</label>
+            <input type="file" id="image" accept=".bmp" required>
+
+            <label for="block_size">Dimensione blocco (F):</label>
+            <input type="number" id="block_size" min="1" required>
+
+            <label for="frequency_threshold">Soglia frequenze (d):</label>
+            <input type="number" id="frequency_threshold" min="0" required>
+
+            <button type="button" onclick="uploadImage()">Processa Immagine</button>
+        </form>
+
+        <div class="preview">
+            <h3>Anteprima:</h3>
+            <div class="image-container">
+                <div class="image-wrapper">
+                    <h4>Originale</h4>
+                    <img id="originalImg" src="" alt="Immagine Originale" style="max-width: 100%; display: none;">
+                    <p id="originalSize" class="file-size">Dimensione originale: -</p>
+                </div>
+                <div class="image-wrapper">
+                    <h4>Processata</h4>
+                    <img id="processedImg" src="" alt="Immagine Processata" style="max-width: 100%; display: none;">
+                    <p id="compressedSize" class="file-size">Dimensione compressa: -</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
