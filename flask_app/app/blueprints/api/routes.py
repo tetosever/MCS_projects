@@ -1,6 +1,9 @@
+import io
 import json
+
 from PIL import Image
 from flask import Blueprint, request, jsonify, send_file
+
 from flask_app.app.blueprints.api.image_compression_input_DTO import ImageCompressionInputDTO
 from flask_app.app.blueprints.api.itersolver_input_DTO import IterSolverInputDTO
 from flask_app.app.services.image_compression_service import ImageCompressionService
@@ -34,17 +37,44 @@ def upload_files():
         print("DEBUG - Errore:", str(exception))
         raise exception
 
+
+def get_file_size(img):
+    """Calcola la dimensione dell'immagine in memoria senza salvarla su disco."""
+
+    # Se l'oggetto è un `BytesIO`, resettare il cursore
+    if isinstance(img, io.BytesIO):
+        img.seek(0)
+        size = len(img.getvalue())  # Metodo corretto per `BytesIO`
+        print(f"DEBUG - Dimensione immagine grayscale: {size} bytes")
+    else:
+        # Se è un file standard, aprilo normalmente
+        original_image = Image.open(img)
+        print(f"DEBUG - Modalità colore originale: {original_image.mode}")
+
+        # Converti in scala di grigi
+        grayscale_image = original_image.convert("L")
+        print(f"DEBUG - Modalità colore dopo conversione: {grayscale_image.mode}")
+
+        # Salva l'immagine in un buffer
+        img_io = io.BytesIO()
+        grayscale_image.save(img_io, format="BMP")
+
+        size = len(img_io.getvalue())  # Metodo corretto per ottenere la dimensione
+        print(f"DEBUG - Dimensione immagine grayscale: {size} bytes")
+
+    return size
+
+
 @api.route('/process_image', methods=['POST'])
 def process_image():
-
     image_processing_input = parse_image_processing_input()
 
-    image_processed, image_processed_size = ImageCompressionService().process_image(image_processing_input)
-    print("DEBUG - Dimensione immagine compressa:", image_processed_size, "KB")
+    image_processed = ImageCompressionService().process_image(image_processing_input)
+
+    print("DEBUG - Dimensione immagine originale:", round(get_file_size(image_processing_input.get_file()) / 1024, 2), "KB")
+    print("DEBUG - Dimensione immagine processata:", round(get_file_size(image_processed) / 1024, 2), "KB")
 
     response = send_file(image_processed, mimetype='image/bmp')
-
-    response.headers["X-Compressed-Size-KB"] = image_processed_size
 
     return response
 

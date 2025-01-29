@@ -17,6 +17,4 @@ class ImageCompressionService:
                                         image_processing_input.get_block_size(),
                                         image_processing_input.get_frequency_threshold())
 
-        processed_image_size = round(image_processed.tell() / 1024, 2)
-
-        return image_processed, processed_image_size
+        return image_processed

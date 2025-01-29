@@ -5,9 +5,6 @@ document.getElementById("image").addEventListener("change", function(event) {
         reader.onload = function(e) {
             document.getElementById("originalImg").src = e.target.result;
             document.getElementById("originalImg").style.display = "block";
-
-            document.getElementById("originalSize").textContent =
-                `Dimensione originale: ${(file.size / 1024).toFixed(2)} KB`;
         };
         reader.readAsDataURL(file);
     }
@@ -20,7 +17,7 @@ function uploadImage() {
     let frequencyThreshold = document.getElementById("frequency_threshold").value;
 
     if (!imageFile || !blockSize || !frequencyThreshold) {
-        alert("Compila tutti i campi!");
+        console.error("Compila tutti i campi!");
         return;
     }
 
@@ -32,14 +29,19 @@ function uploadImage() {
         method: "POST",
         body: formData
     })
-    .then(response => response.blob().then(blob => {
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                window.location.href = `/error?code=${errorData.status_code}&message=${encodeURIComponent(errorData.message)}`;
+                throw new Error(`Errore ${errorData.status_code}: ${errorData.message}`);
+            });
+        }
+        return response.blob();
+    })
+    .then(blob => {
         let url = URL.createObjectURL(blob);
         document.getElementById("processedImg").src = url;
         document.getElementById("processedImg").style.display = "block";
-
-        let compressedSizeKB = (blob.size / 1024).toFixed(2);
-        document.getElementById("compressedSize").textContent =
-            `Dimensione compressa: ${compressedSizeKB} KB`;
-    }))
+    })
     .catch(error => console.error("Errore durante l'upload:", error));
 }
