@@ -45,7 +45,6 @@ def get_file_size(img):
     if isinstance(img, io.BytesIO):
         img.seek(0)
         size = len(img.getvalue())  # Metodo corretto per `BytesIO`
-        print(f"DEBUG - Dimensione immagine grayscale: {size} bytes")
     else:
         # Se è un file standard, aprilo normalmente
         original_image = Image.open(img)
@@ -60,7 +59,6 @@ def get_file_size(img):
         grayscale_image.save(img_io, format="BMP")
 
         size = len(img_io.getvalue())  # Metodo corretto per ottenere la dimensione
-        print(f"DEBUG - Dimensione immagine grayscale: {size} bytes")
 
     return size
 

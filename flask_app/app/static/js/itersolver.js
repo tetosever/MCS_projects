@@ -54,18 +54,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function addForm() {
         if (formCount < maxForms) {
+            if (document.getElementById("add-form").disabled) {
+                document.getElementById("add-form").disabled = false;
+            }
             const newForm = createForm(formCount);
             formContainer.appendChild(newForm);
             formCount++;
             updateButtons();
         }
+        else {
+            document.getElementById("add-form").disabled = true;
+        }
     }
 
     function removeForm() {
         if (formCount > minForms) {
+            if (document.getElementById("remove-form").disabled) {
+                document.getElementById("remove-form").disabled = false;
+            }
             formContainer.removeChild(formContainer.lastElementChild);
             formCount--;
             updateButtons();
+        }
+        else {
+            document.getElementById("remove-form").disabled = true;
         }
     }
 
@@ -149,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!allValid) {
-            alert("Errore: Alcuni campi non sono validi! Controlla i valori evidenziati in rosso.");
             return;
         }
 
@@ -158,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("DEBUG - File inviati:", [...formData.entries()].map(([key, value]) => `${key}: ${value.name}`));
         console.log("DEBUG - Dati inviati:", dataList);
 
-        document.getElementById("loading").style.display = "block";
+        document.getElementById("loadingIndicator").style.display = "block";
 
         fetch("/api/apply", {
             method: "POST",
@@ -174,7 +185,13 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => {
             console.error("DEBUG - Errore:", error);
-            alert("Errore durante l'elaborazione!");
-        });
+        })
+        .finally(() => {
+        document.getElementById("loadingIndicator").style.display = "none";
+    });
+    });
+
+    document.getElementById("backButton").addEventListener("click", function () {
+        window.location.href = "/";
     });
 });

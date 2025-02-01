@@ -1,4 +1,4 @@
-from .exception_handler import exception
+from .exception_handler import error_bp
 
-def create_exception_blueprint():
-    return exception
+def create_error_blueprint():
+    return error_bp

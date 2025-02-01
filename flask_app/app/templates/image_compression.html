@@ -20,7 +20,9 @@
             <label for="frequency_threshold">Soglia frequenze (d):</label>
             <input type="number" id="frequency_threshold" min="0" required>
 
-            <button type="button" onclick="uploadImage()">Processa Immagine</button>
+            <div class="button-container">
+                <button type="button" id="apply-method-button">Processa Immagine</button>
+            </div>
         </form>
 
         <div class="preview">
@@ -33,8 +35,16 @@
                 <div class="image-wrapper">
                     <h4>Processata</h4>
                     <img id="processedImg" src="" alt="Immagine Processata" style="max-width: 100%; display: none;">
+                    <div id="loadingIndicator" style="display: none; text-align: center; margin-top: 20px;">
+                        <p>Elaborazione in corso...</p>
+                        <div class="spinner"></div>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <div class="button-container">
+            <button id="backButton">🔙 Back to the Menú</button>
         </div>
 
     </div>
