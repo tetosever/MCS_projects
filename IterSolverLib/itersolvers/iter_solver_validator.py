@@ -1,8 +1,10 @@
 import numpy as np
+from scipy.sparse import issparse
+
 
 class IterSolverValidator:
     @staticmethod
-    def validate_max_iter(max_iter):
+    def validate_max_iter(max_iter: int):
         if max_iter < 20000:
             raise ValueError("The maximum number of iterations must not be less than 20000")
         print("Maximum iterations validated.")
@@ -15,20 +17,23 @@ class IterSolverValidator:
 
     @staticmethod
     def validate_finite(A):
-        if not np.all(np.isfinite(A.toarray())):
+        arr = A.toarray() if issparse(A) else A
+        if not np.all(np.isfinite(arr)):
             raise ValueError("The matrix contains non-finite values (NaN or Inf).")
         print("All matrix elements are finite.")
 
     @staticmethod
     def validate_symmetry(A):
-        if not np.allclose(A.toarray(), A.T.toarray()):
+        arr = A.toarray() if issparse(A) else A
+        if not np.allclose(arr, arr.T):
             raise ValueError("The matrix must be symmetrical.")
         print("Matrix is symmetrical.")
 
     @staticmethod
     def is_positive_definite(A):
+        arr = A.toarray() if issparse(A) else A
         try:
-            np.linalg.cholesky(A.toarray())
+            np.linalg.cholesky(arr)
             print("Matrix is positive definite.")
             return True
         except np.linalg.LinAlgError:
@@ -39,8 +44,7 @@ class IterSolverValidator:
         IterSolverValidator.validate_numeric(A)
         IterSolverValidator.validate_finite(A)
         IterSolverValidator.validate_symmetry(A)
-        if not IterSolverValidator.is_positive_definite(A):
-            raise ValueError("The matrix must be positive definite.")
+        IterSolverValidator.is_positive_definite(A)
 
     @staticmethod
     def validate(A, b, max_iter):

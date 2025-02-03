@@ -6,7 +6,7 @@ class IterSolverFacade:
     def __init__(self):
         self.context = IterSolverContext()
 
-    def set_solver(self, solver_type):
+    def set_solver(self, solver_type: str):
         if solver_type == 'jacobi':
             self.context.set_strategy(JacobiStrategy())
         elif solver_type == 'gauss_seidel':
