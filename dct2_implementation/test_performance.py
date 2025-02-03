@@ -1,26 +1,46 @@
 import time
+
 import numpy as np
-from dct_manual import dct2_manual
-from dct_fast import dct2_fast
-from plot_results import plot_results
+from matplotlib import pyplot as plt
 
-def test_performance():
-    """Compare execution times of manual vs fast DCT2."""
-    sizes = [8, 16, 32, 64, 128, 256, 512]
-    manual_times = []
-    fast_times = []
+from dct2_implementation.dct_fast import DCTFast
+from dct2_implementation.dct_manual import DCTManual
 
-    for size in sizes:
-        image = np.random.rand(size, size) * 255
 
-        start = time.time()
-        dct2_manual(image)
-        manual_times.append(time.time() - start)
-        print(f"Manual DCT2 for size {size} took {manual_times[-1]:.6f} seconds.")
+class DCTPerformanceTester:
+    def __init__(self):
+        self.dct_manual = DCTManual()
+        self.dct_fast = DCTFast()
 
-        start = time.time()
-        dct2_fast(image)
-        fast_times.append(time.time() - start)
-        print(f"Fast DCT2 (SciPy) for size {size} took {fast_times[-1]:.6f} seconds.")
+    def plot_results(self, sizes, manual_times, fast_times):
+        plt.figure(figsize=(10, 6))
+        plt.plot(sizes, manual_times, 'o-', label="Manual DCT2")
+        plt.plot(sizes, fast_times, 's-', label="Fast DCT2 (SciPy)")
+        plt.xlabel("Dimensione (NxN)")
+        plt.ylabel("Tempo di esecuzione (secondi)")
+        plt.title("Confronto delle prestazioni tra Manual DCT2 e Fast DCT2")
+        plt.legend()
+        plt.grid(True)
+        plt.show()
 
-    plot_results(sizes, manual_times, fast_times)
+    def test_performance(self):
+        sizes = [8, 16, 32, 64, 128, 256, 512]
+        manual_times = []
+        fast_times = []
+
+        for size in sizes:
+            image = np.random.rand(size, size) * 255
+
+            start = time.time()
+            self.dct_manual.dct2_manual(image)
+            manual_time = time.time() - start
+            manual_times.append(manual_time)
+            print(f"Manual DCT2 for size {size} took {manual_time:.6f} seconds.")
+
+            start = time.time()
+            self.dct_fast.dct2_fast(image)
+            fast_time = time.time() - start
+            fast_times.append(fast_time)
+            print(f"Fast DCT2 (SciPy) for size {size} took {fast_time:.6f} seconds.")
+
+        self.plot_results(sizes, manual_times, fast_times)

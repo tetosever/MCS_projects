@@ -1,26 +1,29 @@
 import numpy as np
 from scipy.fftpack import dct, idct
 
-def apply_dct2(block):
-    """Apply 2D Discrete Cosine Transform to a block."""
-    return dct(dct(block.T, norm='ortho').T, norm='ortho')
+from image_compression.parameter_validator import ParameterValidator
 
-def apply_idct2(block):
-    """Apply Inverse 2D Discrete Cosine Transform to a block."""
-    return idct(idct(block.T, norm='ortho').T, norm='ortho')
 
-def process_block(block, frequency_threshold):
-    """
-    Process a single block:
-    - Apply DCT2.
-    - Remove frequencies where k + l >= threshold.
-    - Apply IDCT2.
-    """
-    dct_block = apply_dct2(block)
-    size = block.shape[0]
-    for k in range(size):
-        for l in range(size):
-            if k + l >= frequency_threshold:
-                dct_block[k, l] = 0
-    idct_block = apply_idct2(dct_block)
-    return np.clip(np.rint(idct_block), 0, 255)  # Normalize values
+class DCTProcessor:
+    def __init__(self, block_size: int, frequency_threshold: int):
+        ParameterValidator.validate_parameters(block_size, frequency_threshold)
+        self.block_size = block_size
+        self.frequency_threshold = frequency_threshold
+
+    def apply_dct2(self, block: np.ndarray) -> np.ndarray:
+        return dct(dct(block.T, norm='ortho').T, norm='ortho')
+
+    def apply_idct2(self, block: np.ndarray) -> np.ndarray:
+        return idct(idct(block.T, norm='ortho').T, norm='ortho')
+
+    def process_block(self, block: np.ndarray) -> np.ndarray:
+        if block.shape[0] != self.block_size or block.shape[1] != self.block_size:
+            raise ValueError(f"Il blocco deve essere di dimensione {self.block_size}x{self.block_size}")
+
+        dct_block = self.apply_dct2(block)
+        for k in range(self.block_size):
+            for l in range(self.block_size):
+                if k + l >= self.frequency_threshold:
+                    dct_block[k, l] = 0
+        idct_block = self.apply_idct2(dct_block)
+        return np.clip(np.rint(idct_block), 0, 255)

@@ -1,37 +1,35 @@
 import numpy as np
 
 
-def precompute_dct_matrix(N):
-    """Precompute the DCT transformation matrix."""
-    factor = np.pi / (2 * N)
-    dct_matrix = np.zeros((N, N))
+class DCTManual:
+    def __init__(self):
+        pass
 
-    for k in range(N):
-        for n in range(N):
-            dct_matrix[k, n] = np.cos((2 * n + 1) * k * factor)
+    def precompute_dct_matrix(self, N):
+        factor = np.pi / (2 * N)
+        dct_matrix = np.zeros((N, N))
 
-    # Apply normalization factors
-    dct_matrix *= np.sqrt(2 / N)
-    dct_matrix[0, :] *= np.sqrt(1 / 2)
+        for k in range(N):
+            for n in range(N):
+                dct_matrix[k, n] = np.cos((2 * n + 1) * k * factor)
 
-    return dct_matrix
+        dct_matrix *= np.sqrt(2 / N)
+        dct_matrix[0, :] *= np.sqrt(1 / 2)
 
-def dct2_manual(image):
-    """Compute 2D DCT using precomputed DCT matrix."""
-    N, M = image.shape
-    dct_matrix_N = precompute_dct_matrix(N)
-    dct_matrix_M = precompute_dct_matrix(M)
+        return dct_matrix
 
-    # Compute DCT for rows and then for columns
-    dct_rows = dct_matrix_N @ image @ dct_matrix_M.T
-    return dct_rows
+    def dct2_manual(self, image):
+        N, M = image.shape
+        dct_matrix_N = self.precompute_dct_matrix(N)
+        dct_matrix_M = self.precompute_dct_matrix(M)
 
-def idct2_manual(image):
-    """Compute 2D inverse DCT using precomputed matrices."""
-    N, M = image.shape
-    dct_matrix_N = precompute_dct_matrix(N)
-    dct_matrix_M = precompute_dct_matrix(M)
+        # Calcola la DCT per le righe e poi per le colonne
+        return dct_matrix_N @ image @ dct_matrix_M.T
 
-    # Compute inverse DCT for rows and then for columns
-    idct_rows = dct_matrix_N.T @ image @ dct_matrix_M
-    return idct_rows
+    def idct2_manual(self, image):
+        N, M = image.shape
+        dct_matrix_N = self.precompute_dct_matrix(N)
+        dct_matrix_M = self.precompute_dct_matrix(M)
+
+        # Poiché la matrice DCT normalizzata è ortogonale, l'inversa corrisponde alla sua trasposta.
+        return dct_matrix_N.T @ image @ dct_matrix_M
