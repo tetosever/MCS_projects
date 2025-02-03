@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!data) {
         console.error("Errore: Nessun dato trovato in localStorage.");
-        alert("Nessun risultato disponibile. Torna alla pagina principale e avvia una nuova analisi.");
         window.location.href = "/";
         return;
     }
@@ -15,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!data.results || data.results.length === 0) {
             console.error("Errore: Nessun risultato disponibile.");
-            alert("I dati dei risultati non sono validi.");
             return;
         }
 
@@ -53,12 +51,23 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 console.error("Grafico del tempo di esecuzione non disponibile.");
             }
+
+            if (data.images.iterations_barplot) {
+                document.getElementById("iterationsBarPlot").src = data.images.iterations_barplot;
+            } else {
+                console.error("Grafico a barre numero di iterazioni non disponibile.");
+            }
+
+            if (data.images.execution_time_barplot) {
+                document.getElementById("executionTimeBarPlot").src = data.images.execution_time_barplot;
+            } else {
+                console.error("Grafico a barre tempi di esecuzione non disponibile.");
+            }
         } else {
             console.error("Immagini non disponibili.");
         }
     } catch (error) {
         console.error("Errore durante l'elaborazione dei dati:", error);
-        alert("Si è verificato un errore nel recupero dei dati. Controlla la console.");
     }
 });
 

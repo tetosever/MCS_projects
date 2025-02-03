@@ -16,12 +16,6 @@ def precompute_dct_matrix(N):
 
     return dct_matrix
 
-
-def dct1d_manual(vector, dct_matrix):
-    """Compute 1D DCT using matrix multiplication."""
-    return dct_matrix @ vector  # Matrix-vector multiplication
-
-
 def dct2_manual(image):
     """Compute 2D DCT using precomputed DCT matrix."""
     N, M = image.shape
@@ -31,12 +25,6 @@ def dct2_manual(image):
     # Compute DCT for rows and then for columns
     dct_rows = dct_matrix_N @ image @ dct_matrix_M.T
     return dct_rows
-
-
-def idct1d_manual(vector, dct_matrix):
-    """Compute 1D Inverse DCT using matrix multiplication."""
-    return dct_matrix.T @ vector  # Transpose of the DCT matrix
-
 
 def idct2_manual(image):
     """Compute 2D inverse DCT using precomputed matrices."""
