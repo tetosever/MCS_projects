@@ -1,3 +1,4 @@
+import io
 import time
 
 import numpy as np
@@ -16,15 +17,23 @@ class DCTPerformanceTester:
         plt.figure(figsize=(10, 6))
         plt.plot(sizes, manual_times, 'o-', label="Manual DCT2")
         plt.plot(sizes, fast_times, 's-', label="Fast DCT2 (SciPy)")
-        plt.xlabel("Dimensione (NxN)")
+        plt.xlabel("Dimensione (N x N)")
         plt.ylabel("Tempo di esecuzione (secondi)")
-        plt.title("Confronto delle prestazioni tra Manual DCT2 e Fast DCT2")
+        plt.yscale("log")
+        plt.title("Confronto prestazionale: Manual DCT2 vs Fast DCT2")
         plt.legend()
         plt.grid(True)
-        plt.show()
+
+        # Salva il grafico in un buffer
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        plt.close()
+
+        return buf
 
     def test_performance(self):
-        sizes = [8, 16, 32, 64, 128, 256, 512]
+        sizes = [8, 16, 32, 64, 128, 256, 512, 1024, 2048]
         manual_times = []
         fast_times = []
 
@@ -33,14 +42,12 @@ class DCTPerformanceTester:
 
             start = time.time()
             self.dct_manual.dct2_manual(image)
-            manual_time = time.time() - start
-            manual_times.append(manual_time)
-            print(f"Manual DCT2 for size {size} took {manual_time:.6f} seconds.")
+            manual_times.append(time.time() - start)
 
             start = time.time()
             self.dct_fast.dct2_fast(image)
-            fast_time = time.time() - start
-            fast_times.append(fast_time)
-            print(f"Fast DCT2 (SciPy) for size {size} took {fast_time:.6f} seconds.")
+            fast_times.append(time.time() - start)
 
-        self.plot_results(sizes, manual_times, fast_times)
+            print(f"Size {size}x{size}: Manual DCT2 = {manual_times[-1]:.6f}s, Fast DCT2 = {fast_times[-1]:.6f}s")
+
+        return self.plot_results(sizes, manual_times, fast_times)

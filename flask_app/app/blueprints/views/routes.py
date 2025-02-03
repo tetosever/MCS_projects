@@ -17,3 +17,7 @@ def image_compression():
 @views.route('/results')
 def results():
     return render_template('results.html')
+
+@views.route('/dct2')
+def dct2():
+    return render_template('dct2.html')

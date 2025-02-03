@@ -1,9 +1,11 @@
+import base64
 import io
 import json
 
 from PIL import Image
 from flask import Blueprint, request, jsonify, send_file
 
+from dct2_implementation.dct_perfomance_tester import DCTPerformanceTester
 from flask_app.app.blueprints.api.image_compression_input_DTO import ImageCompressionInputDTO
 from flask_app.app.blueprints.api.itersolver_input_DTO import IterSolverInputDTO
 from flask_app.app.services.image_compression_service import ImageCompressionService
@@ -37,32 +39,6 @@ def upload_files():
         print("DEBUG - Errore:", str(exception))
         raise exception
 
-
-def get_file_size(img):
-    """Calcola la dimensione dell'immagine in memoria senza salvarla su disco."""
-
-    # Se l'oggetto è un `BytesIO`, resettare il cursore
-    if isinstance(img, io.BytesIO):
-        img.seek(0)
-        size = len(img.getvalue())  # Metodo corretto per `BytesIO`
-    else:
-        # Se è un file standard, aprilo normalmente
-        original_image = Image.open(img)
-        print(f"DEBUG - Modalità colore originale: {original_image.mode}")
-
-        # Converti in scala di grigi
-        grayscale_image = original_image.convert("L")
-        print(f"DEBUG - Modalità colore dopo conversione: {grayscale_image.mode}")
-
-        # Salva l'immagine in un buffer
-        img_io = io.BytesIO()
-        grayscale_image.save(img_io, format="BMP")
-
-        size = len(img_io.getvalue())  # Metodo corretto per ottenere la dimensione
-
-    return size
-
-
 @api.route('/process_image', methods=['POST'])
 def process_image():
     image_processing_input = parse_image_processing_input()
@@ -75,6 +51,16 @@ def process_image():
     response = send_file(image_processed, mimetype='image/bmp')
 
     return response
+
+@api.route('/test_dct2', methods=['GET'])
+def test_dct2():
+    performance_tester = DCTPerformanceTester()
+    img_stream = performance_tester.test_performance()
+    img_stream.seek(0)
+
+    base64_image = base64.b64encode(img_stream.read()).decode('utf-8')
+
+    return jsonify({'manualImplementationDCT': base64_image})
 
 def parse_solver_inputs():
     data_list = json.loads(request.form.get("data"))
@@ -117,3 +103,27 @@ def parse_image_processing_input():
     print("DEBUG - Ricevuti file:", image_processing_input.__repr__() + "\n")
 
     return image_processing_input
+
+def get_file_size(img):
+    """Calcola la dimensione dell'immagine in memoria senza salvarla su disco."""
+
+    # Se l'oggetto è un `BytesIO`, resettare il cursore
+    if isinstance(img, io.BytesIO):
+        img.seek(0)
+        size = len(img.getvalue())  # Metodo corretto per `BytesIO`
+    else:
+        # Se è un file standard, aprilo normalmente
+        original_image = Image.open(img)
+        print(f"DEBUG - Modalità colore originale: {original_image.mode}")
+
+        # Converti in scala di grigi
+        grayscale_image = original_image.convert("L")
+        print(f"DEBUG - Modalità colore dopo conversione: {grayscale_image.mode}")
+
+        # Salva l'immagine in un buffer
+        img_io = io.BytesIO()
+        grayscale_image.save(img_io, format="BMP")
+
+        size = len(img_io.getvalue())  # Metodo corretto per ottenere la dimensione
+
+    return size
