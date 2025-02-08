@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span class="info-icon" data-tooltip="La tolleranza non deve essere un valore piú piccolo di 0.1">ℹ️</span>
                 </div>
                 <div class="tolerance-inputs">
-                    <input type="number" id="tolerance-number-${index}" name="tolerance_number" step="any" value="0.0001">
+                    <input type="number" id="tolerance-number-${index}" name="tolerance_number" step="any" value="1e-04">
                 </div>
             </div>
             <div class="form-group">

@@ -23,7 +23,6 @@ class DCTManual:
         dct_matrix_N = self.precompute_dct_matrix(N)
         dct_matrix_M = self.precompute_dct_matrix(M)
 
-        # Calcola la DCT per le righe e poi per le colonne
         return dct_matrix_N @ image @ dct_matrix_M.T
 
     def idct2_manual(self, image):
@@ -31,5 +30,4 @@ class DCTManual:
         dct_matrix_N = self.precompute_dct_matrix(N)
         dct_matrix_M = self.precompute_dct_matrix(M)
 
-        # Poiché la matrice DCT normalizzata è ortogonale, l'inversa corrisponde alla sua trasposta.
         return dct_matrix_N.T @ image @ dct_matrix_M

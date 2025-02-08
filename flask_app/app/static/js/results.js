@@ -23,13 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
         data.results.forEach(result => {
             let row = tableBody.insertRow();
             row.innerHTML = `
+                <td>${parseInt(result.index) + 1}</td>
                 <td>${result.method}</td>
                 <td>${result.iterations}</td>
                 <td>${result.execution_time.toFixed(4)}</td>
                 <td>${(result.residue_absolute.length > 0 ? result.residue_absolute[result.residue_absolute.length - 1] : "N/A")}</td>
                 <td>${(result.residue_relative.length > 0 ? result.residue_relative[result.residue_relative.length - 1] : "N/A")}</td>
                 <td>${result.tolerance}</td>
-                <td>${result.converged}</td>
+                <td>${result.converged ? "✅" : "❌"}</td>
             `;
         });
 

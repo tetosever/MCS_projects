@@ -59,10 +59,11 @@ class IterSolverService:
         for i, method in enumerate(methods):
             iterations = range(1, len(residue_absolute[i]) + 1)
             ax.plot(iterations, residue_absolute[i], marker='o', linestyle='-', color=colors[i],
-                    label=method, linewidth=2, markersize=6)
+                    label="Metodo " + str(i+1) + ": " + method, linewidth=2, markersize=6)
 
         ax.set_xlabel("Numero di Iterazioni")
         ax.set_ylabel("Residuo assoluto")
+        ax.set_yscale("log")
         ax.set_title("Convergenza dei Metodi Iterativi")
         ax.legend()
         ax.grid(True, linestyle="--", alpha=0.5)
@@ -76,10 +77,11 @@ class IterSolverService:
         for i, method in enumerate(methods):
             iterations = range(1, len(residue_relative[i]) + 1)
             ax.plot(iterations, residue_relative[i], marker='o', linestyle='-', color=colors[i],
-                    label=method, linewidth=2, markersize=6)
+                    label="Metodo " + str(i+1) + ": " + method, linewidth=2, markersize=6)
 
         ax.set_xlabel("Numero di Iterazioni")
         ax.set_ylabel("Residuo relativo")
+        ax.set_yscale("log")
         ax.set_title("Convergenza dei Metodi Iterativi")
         ax.legend()
         ax.grid(True, linestyle="--", alpha=0.5)
@@ -93,10 +95,11 @@ class IterSolverService:
         for i, method in enumerate(methods):
             iterations = range(1, len(times[i]) + 1)
             ax.plot(iterations, times[i], marker='o', linestyle='-', color=colors[i],
-                    label=method, linewidth=2, markersize=6)
+                    label="Metodo " + str(i+1) + ": " + method, linewidth=2, markersize=6)
 
         ax.set_xlabel("Step di Calcolo")
         ax.set_ylabel("Tempo di Esecuzione (s)")
+        ax.set_yscale("log")
         ax.set_title("Confronto dei Tempi di Esecuzione")
         ax.legend()
         ax.grid(True, linestyle="--", alpha=0.5)
@@ -112,8 +115,10 @@ class IterSolverService:
 
         ax.bar(x, iterations, color=colors, alpha=0.8, width=bar_width)
 
+        xticklabels = [f"Metodo {i + 1}: {method}" for i, method in enumerate(methods)]
+
         ax.set_xticks(x)
-        ax.set_xticklabels(methods)
+        ax.set_xticklabels(xticklabels)
         ax.set_xlim(-0.5, len(methods) - 0.5)
         ax.set_xlabel("Metodi Iterativi")
         ax.set_ylabel("Numero di Iterazioni")
@@ -131,8 +136,10 @@ class IterSolverService:
 
         ax.bar(x, execution_times, color=colors, alpha=0.8, width=bar_width)
 
+        xticklabels = [f"Metodo {i + 1}: {method}" for i, method in enumerate(methods)]
+
         ax.set_xticks(x)
-        ax.set_xticklabels(methods)
+        ax.set_xticklabels(xticklabels)
         ax.set_xlim(-0.5, len(methods) - 0.5)
         ax.set_xlabel("Metodi Iterativi")
         ax.set_ylabel("Tempo di Esecuzione (s)")

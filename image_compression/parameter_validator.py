@@ -2,9 +2,6 @@
 class ParameterValidator:
     @staticmethod
     def validate_parameters(block_size, frequency_threshold):
-        """
-        Validate that block_size and frequency_threshold are valid.
-        """
         if not isinstance(block_size, int) or block_size <= 0:
             raise ValueError("Block size must be a positive integer.")
 
