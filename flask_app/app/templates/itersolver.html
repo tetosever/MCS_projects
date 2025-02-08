@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IterSolverLib - Selezione Metodo</title>
+    <link rel="stylesheet" href="../static/css/itersolver.css">
+    <script src="../static/js/itersolver.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Risoluzione di Sistemi Lineari</h1>
+        <p>Seleziona un metodo iterativo, imposta i parametri e carica un file .mtx per eseguire la risoluzione.</p>
+
+        <div class="form-wrapper">
+            <div id="form-container" class="form-container">
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button type="button" id="add-form">Aggiungi Metodo</button>
+            <button type="button" id="remove-form" disabled>Rimuovi Metodo</button>
+        </div>
+
+        <div class="button-container">
+            <button type="submit" id="apply-method-button">Esegui</button>
+        </div>
+
+        <div id="loadingIndicator" style="display: none; text-align: center; margin-top: 20px;">
+            <p>Elaborazione in corso...</p>
+            <div class="spinner"></div>
+        </div>
+
+        <div class="button-container">
+            <button id="backButton">🔙 Back to the Menú</button>
+        </div>
+
+    </div>
+</body>
+</html>

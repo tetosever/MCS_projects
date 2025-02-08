@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risultati IterSolver</title>
+    <link rel="stylesheet" href="../static/css/results.css"> <!-- Se hai uno stile CSS -->
+    <script defer src="../static/js/results.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Risultati dei Metodi Iterativi</h1>
+
+        <div class="table-container">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Num. Metodo</th>
+                        <th>Solutore</th>
+                        <th>Iterazioni</th>
+                        <th>Tempo di Esecuzione (s)</th>
+                        <th>Residuo Finale Assoluto</th>
+                        <th>Residuo Finale Relativo</th>
+                        <th>Tolleranza</th>
+                        <th>Terminato</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div>
+            <h2>Grafico della Convergenza Residuo Assoluto</h2>
+            <img id="convergenceAbsolutePlot" src="" alt="Grafico della Convergenza Residuo Assoluto">
+        </div>
+         <div>
+            <h2>Grafico della Convergenza Residuo Relativo</h2>
+            <img id="convergenceRelativePlot" src="" alt="Grafico della Convergenza Residuo Relativo">
+        </div>
+        <div>
+            <h2>Grafico dei Tempi di Esecuzione</h2>
+            <img id="executionTimePlot" src="" alt="Grafico dei Tempi di Esecuzione">
+        </div>
+        <div>
+            <h2>Grafico a barre numero di iterazioni</h2>
+            <img id="iterationsBarPlot" src="" alt="Grafico a barre numero di iterazioni">
+        </div>
+        <div>
+            <h2>Grafico a barre tempi di esecuzione</h2>
+            <img id="executionTimeBarPlot" src="" alt="Grafico a barre tempi di esecuzione">
+        </div>
+
+        <button id="backButton">🔙 Back</button>
+    </div>
+
+</body>
+</html>

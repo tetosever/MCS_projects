@@ -1,0 +1,8 @@
+Flask
+numpy
+scipy
+setuptools
+setuptools_scm
+pytest
+matplotlib
+-e ./IterSolverLib

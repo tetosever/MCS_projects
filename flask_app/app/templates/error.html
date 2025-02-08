@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Errore</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+    <script defer src="{{ url_for('static', filename='js/error.js') }}"></script>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-card">
+            <h1>Errore <span id="errorCode"></span></h1>
+            <p id="errorMessage"></p>
+            <a href="/" class="btn">Torna alla home</a>
+        </div>
+    </div>
+</body>
+</html>
